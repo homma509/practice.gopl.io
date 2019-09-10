@@ -12,7 +12,7 @@ type count struct {
 }
 
 func main() {
-	counts := make(map[string]count)
+	counts := make(map[string]*count)
 	files := os.Args[1:]
 	if len(files) == 0 {
 		countLines(os.Stdin, counts)
@@ -30,19 +30,17 @@ func main() {
 	for line, count := range counts {
 		if count.n > 1 {
 			fmt.Printf("%d\t%s\t%s\n", count.n, line, count.filename)
-		} else {
-			fmt.Printf("%d\t%s\t%s\n", count.n, line, count.filename)
 		}
 	}
 }
 
-func countLines(f *os.File, counts map[string]count) {
+func countLines(f *os.File, counts map[string]*count) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
 		if val, ok := counts[input.Text()]; ok {
-			counts[input.Text()].n++
+			val.n++
 		} else {
-			counts[input.Text()] = count{n: 1, filename: f.Name()}
+			counts[input.Text()] = &count{n: 1, filename: f.Name()}
 		}
 	}
 }
