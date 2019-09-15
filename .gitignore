@@ -24,4 +24,8 @@
 # Test images
 *.gif
 
+# Log file
+*.log
+
+
 
